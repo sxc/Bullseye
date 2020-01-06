@@ -16,6 +16,7 @@ struct ContentView: View {
     // User interface views
     @State var alertIsVisible = false
     @State var sliderValue: Double = 50.0
+    @State var target = Int.random(in: 1...100)
     
     
     var body: some View {
@@ -25,7 +26,7 @@ struct ContentView: View {
             // Target row
             HStack {
                 Text("Put the bullseye as close as you can to:")
-                Text("100")
+                Text("\(self.target)")
             }
             
             Spacer()
@@ -41,13 +42,15 @@ struct ContentView: View {
             
             // Button row
             Button(action: {
-                print("Button pressed!")
+                print("Pints awarded: \(self.pointsForCurrentRound())")
                 self.alertIsVisible = true
             }) {
                 Text("Hit me!")
             }
             .alert(isPresented: self.$alertIsVisible) {
-                Alert(title: Text("Hello there!"), message: Text("TThe slider's value is \(Int(self.sliderValue.rounded()))."), dismissButton: .default(Text("Awesome!")))
+                Alert(title: Text("Hello there!"), message: Text("The slider's value is \(Int(self.sliderValue.rounded())).\n" +
+                    "The target value is \(self.target).\n" +
+                    "You scored \(self.pointsForCurrentRound()) points this round."), dismissButton: .default(Text("Awesome!")))
             }
             
             Spacer()
@@ -77,6 +80,17 @@ struct ContentView: View {
     
     // Methods
     // =======
+    func pointsForCurrentRound() -> Int {
+        var difference: Int
+        if Int(self.sliderValue.rounded()) > self.target {
+            difference = Int(self.sliderValue.rounded()) - self.target
+        } else if self.target > Int(self.sliderValue.rounded()) {
+            difference = self.target - Int(self.sliderValue.rounded())
+        } else {
+            difference = 0
+        }
+        return 100 - difference
+    }
 }
 
 // Preview
