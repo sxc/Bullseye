@@ -17,6 +17,9 @@ struct ContentView: View {
     @State var alertIsVisible = false
     @State var sliderValue: Double = 50.0
     @State var target = Int.random(in: 1...100)
+    var sliderValueRounded: Int {
+        Int(self.sliderValue.rounded())
+    }
     
     
     var body: some View {
@@ -48,9 +51,9 @@ struct ContentView: View {
                 Text("Hit me!")
             }
             .alert(isPresented: self.$alertIsVisible) {
-                Alert(title: Text("Hello there!"), message: Text("The slider's value is \(Int(self.sliderValue.rounded())).\n" +
-                    "The target value is \(self.target).\n" +
-                    "You scored \(self.pointsForCurrentRound()) points this round."), dismissButton: .default(Text("Awesome!")))
+                Alert(title: Text("Hello there!"),
+                      message: Text(self.scoringMessage()),
+                      dismissButton: .default(Text("Awesome!")))
             }
             
             Spacer()
@@ -81,16 +84,24 @@ struct ContentView: View {
     // Methods
     // =======
     func pointsForCurrentRound() -> Int {
-        var difference: Int
-        if Int(self.sliderValue.rounded()) > self.target {
-            difference = Int(self.sliderValue.rounded()) - self.target
-        } else if self.target > Int(self.sliderValue.rounded()) {
-            difference = self.target - Int(self.sliderValue.rounded())
+        let difference: Int
+        if self.sliderValueRounded > self.target {
+            difference = sliderValueRounded - self.target
+        } else if self.target > self.sliderValueRounded {
+            difference = self.target - self.sliderValueRounded
         } else {
             difference = 0
         }
         return 100 - difference
     }
+    
+    func scoringMessage() -> String {
+        return "The slider's value is \(self.sliderValueRounded).\n" +
+        "The target value is \(self.target).\n" +
+        "You scord \(self.pointsForCurrentRound()) points this round."
+    }
+    
+    
 }
 
 // Preview
