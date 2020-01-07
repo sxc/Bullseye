@@ -88,6 +88,10 @@ struct ContentView: View {
             .padding(.bottom, 20)
         }
         
+        .onAppear() {
+            self.startNewGame()
+        }
+        
     }
     
     // Methods
@@ -141,7 +145,7 @@ struct ContentView: View {
     }
     
     func resetSliderAndTarget() {
-        sliderValue = 50.0
+        sliderValue = Double.random(in: 1...100)
         target = Int.random(in: 1...100)
     }
     
