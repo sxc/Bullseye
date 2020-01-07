@@ -34,7 +34,7 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             VStack {
-                Spacer()
+                Spacer().navigationBarTitle("🎯 Bullseye 🎯")
                 
                 // Target row
                 HStack {
@@ -127,6 +127,7 @@ struct ContentView: View {
             
         }
        // .navigationViewStyle()
+        .navigationViewStyle(StackNavigationViewStyle())
     }
     
     // Methods
