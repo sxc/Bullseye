@@ -57,11 +57,10 @@ struct ContentView: View {
                
             }) {
                 Text("Hit me!")
-                    .font(Font.custom("Arial Rounded MT Bold", size: 18))
-                    .foregroundColor(Color.black)
+                .modifier(ButtonLargeTextStyle())
             }
             .background(Image("Button"))
-                .shadow(color: Color.black, radius: 5, x: 2, y: 2)
+                .modifier(Shadow())
             .alert(isPresented: $alertIsVisible) {
                 Alert(title: Text(alertTitle()),
                       message: Text(scoringMessage()),
@@ -74,14 +73,16 @@ struct ContentView: View {
             Spacer()
             
             // Score row
-            // TODO: Add views for the score, rounds, and start and info buttons here.
             
             HStack {
                 Button(action: {
                     self.startNewGame()
                 }) {
                     Text("Start over")
+                        .modifier(ButtonSmallTextStyle())
                 }
+                .background(Image("Button"))
+                    .modifier(Shadow())
                 Spacer()
                 Text("Score:")
                     .modifier(LabelStyle())
@@ -95,7 +96,10 @@ struct ContentView: View {
                 Spacer()
                 Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/) {
                     Text("Info")
+                        .modifier(ButtonSmallTextStyle())
                 }
+                .background(Image("Button"))
+                    .modifier(Shadow())
             }
             .padding(.bottom, 20)
         }
@@ -173,7 +177,7 @@ struct LabelStyle: ViewModifier {
         content
             .font(Font.custom("Arial Rounded MT Bold", size: 18))
             .foregroundColor(Color.white)
-            .shadow(color: Color.black, radius: 5, x: 2, y: 2)
+            .modifier(Shadow())
     }
 }
 
@@ -182,7 +186,30 @@ struct ValueStyle: ViewModifier {
         content
             .font(Font.custom("Arial Rounded MT Bold", size: 24))
             .foregroundColor(Color.yellow)
+            .modifier(Shadow())
+    }
+}
+
+struct Shadow: ViewModifier {
+    func body(content: Content) -> some View {
+        content
             .shadow(color: Color.black, radius: 5, x: 2, y: 2)
+    }
+}
+
+struct ButtonLargeTextStyle: ViewModifier {
+    func body(content: Content) -> some View{
+        content
+            .font(Font.custom("Arial Rounded MT Bold", size: 18))
+            .foregroundColor(Color.black)
+    }
+}
+
+struct ButtonSmallTextStyle: ViewModifier {
+    func body(content: Content) -> some View{
+        content
+            .font(Font.custom("Arial Rounded MT Bold", size: 12))
+            .foregroundColor(Color.black)
     }
 }
 
